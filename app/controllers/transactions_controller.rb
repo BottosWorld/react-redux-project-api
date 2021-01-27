@@ -1,10 +1,10 @@
 class TransactionsController < ApplicationController
     before_action :set_account
-    # before_action :set_transaction, only: [:show, :update, :destroy]
+    before_action :set_transaction, only: [:show, :update, :destroy]
   
     # GET /transactions
     def index
-
+      # binding.pry
       if params[:account_id]
         @account = Account.find(params[:account_id])
         @transactions = @account.transactions
@@ -48,9 +48,9 @@ class TransactionsController < ApplicationController
   
     private
       # Use callbacks to share common setup or constraints between actions.
-      # def set_transaction
-      #   @transaction = Transaction.find(params[:id])
-      # end
+      def set_transaction
+        @transaction = Transaction.find(params[:id])
+      end
 
       def set_account
         @account = Account.find(params[:account_id])
