@@ -22,11 +22,11 @@ class TransactionsController < ApplicationController
   
     # POST /transactions
     def create
-      @transaction = @account.Transaction.new(transaction_params)
+      @transaction = @account.transactions.new(transaction_params)
   
       if @account.update_balance(@transaction) != 'Balance too low.. =('
         @transaction.save
-        render json: @account, status: :created, location: @transaction
+        render json: @account, status: :created, location: @account
       else
         render json: @transaction.errors, status: :unprocessable_entity
       end
