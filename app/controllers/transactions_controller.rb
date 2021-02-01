@@ -23,7 +23,6 @@ class TransactionsController < ApplicationController
     # POST /transactions
     def create
       @transaction = @account.transactions.new(transaction_params)
-  
       if @account.update_balance(@transaction) != 'Balance too low.. =('
         @transaction.save
         render json: @account, status: :created, location: @account
@@ -43,10 +42,13 @@ class TransactionsController < ApplicationController
   
     # DELETE /transactions/1
     def destroy
-      # binding.pry
       @account = Account.find(@transaction.account_id)
-      @transaction.destroy
-      render json: @account
+      if @account.update_delete_balance(@transaction)
+        @transaction.destroy
+        render json: @account
+      else
+        render json: @transaction.errors, status: :unprocessable_entity
+      end
     end
   
     private
