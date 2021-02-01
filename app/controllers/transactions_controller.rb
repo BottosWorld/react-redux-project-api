@@ -43,13 +43,17 @@ class TransactionsController < ApplicationController
   
     # DELETE /transactions/1
     def destroy
+      # binding.pry
+      @account = Account.find(@transaction.account_id)
       @transaction.destroy
+      render json: @account
     end
   
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_transaction
         @transaction = Transaction.find(params[:id])
+
       end
 
       def set_account
